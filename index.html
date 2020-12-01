@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>HIT-THE-MOUSE</title>
+    <style>
+        * {
+            outline: none;
+        }
+
+        body {
+            padding: 0%;
+            margin: 0%;
+            box-sizing: border-box;
+            background: linear-gradient(skyblue, white);
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+
+        .game {
+            height: 75vh;
+            width: 100%;
+            padding-left: 2%;
+        }
+
+        .hole {
+            justify-content: center;
+            height: 200px;
+            width: 22%;
+            float: left;
+            margin: 2% 1% 2% 1%;
+            border-bottom: 10px solid #302015;
+            overflow: hidden;
+            border-radius: 5px;
+        }
+
+        .tom {
+            height: 80%;
+            width: 100%;
+            background-image: url('tom.png');
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
+            position: relative;
+            top: 200px;
+            transition: 0.4s;
+            margin: auto;
+            cursor: grabbing;
+        }
+
+        #d1 {
+            font-size: 50px;
+            margin: auto;
+            text-align: center;
+        }
+
+        img {
+            height: 50px;
+            width: 100%;
+            top: 180px;
+        }
+
+        button {
+            width: 10%;
+            height: 15%;
+            font-size: 2.5vw;
+            background: olivedrab;
+            border: none;
+            border-radius: 25px;
+            color: white;
+            margin: 1.5%;
+        }
+    </style>
+</head>
+
+<body>
+    <button onclick="start()" id="strt">Start</button>
+    <button onclick="quit()" style="float: right; background:#FF726F;">Quit</button><br>
+    <div id="d1">
+        <span>Score:</span>
+        <span id="score" style="color: red;">0</span>
+        <span style="color: red;">/20</span>
+        <i class="fa fa-trophy" style="font-size:48px;color:yellow;margin-left: 20px; cursor: pointer;"
+            onclick="HighScore()"></i>
+    </div>
+    <div class="game">
+        <div class="hole" onclick="">
+            <div class="tom" onclick="scoreCard()"></div>
+            <img src="grass_PNG10857.png" alt="image">
+        </div>
+        <div class="hole">
+            <div class="tom" onclick="scoreCard()"></div>
+            <img src="grass_PNG10857.png" alt="image">
+        </div>
+        <div class="hole">
+            <div class="tom" onclick="scoreCard()"></div>
+            <img src="grass_PNG10857.png" alt="image">
+        </div>
+        <div class="hole">
+            <div class="tom" onclick="scoreCard()"></div>
+            <img src="grass_PNG10857.png" alt="image">
+        </div>
+        <div class="hole">
+            <div class="tom" onclick="scoreCard()"></div>
+            <img src="grass_PNG10857.png" alt="image">
+        </div>
+        <div class="hole">
+            <div class="tom" onclick="scoreCard()"></div>
+            <img src="grass_PNG10857.png" alt="image">
+        </div>
+        <div class="hole">
+            <div class="tom" onclick="scoreCard()"></div>
+            <img src="grass_PNG10857.png" alt="image">
+        </div>
+        <div class="hole">
+            <div class="tom" onclick="scoreCard()"></div>
+            <img src="grass_PNG10857.png" alt="image">
+        </div>
+    </div>
+    <script>
+        var AllHole = document.getElementsByClassName('hole');
+        var tom = document.getElementsByClassName('tom');
+        var score = 0;
+        var RanNum = 0;
+        var RanHole = 0;
+        var last = 0;
+        var pt = 0;
+        var name = '';
+        var counter = 0;
+        var hs = 0;
+        var hn = 'It is Start';
+        var double1 = 0;
+        var double2 = 0;
+        function ran(min, max) {
+            RanNum = Math.round(Math.random() * (max - min) + min);
+            return RanNum;
+        }
+        function start() {
+            name = prompt("Please Enter Your Name:")
+            counter = 0;
+            score = 0;
+            document.getElementById('strt').disabled = true;
+            document.getElementById('score').innerHTML = score;
+            setTimeout(hole, 2000);
+
+        }
+        function hole() {
+            RanHole = ran(0, 7);
+            if (RanHole == last) {
+                hole();
+            }
+            else {
+                if (counter <= 10) {
+                    double1 = 0;
+                    double2 = 0;
+                    tom[RanHole].style.top = "0";
+                    setTimeout(function () {
+                        tom[RanHole].style.top = "200px";
+                    }, 1000);
+                    setTimeout(function () {
+                        hole();
+                    }, 2000);
+                    last = RanHole;
+                    counter = counter + 1;
+                }
+                else {
+                    alert('Game Over')
+                    document.getElementById('strt').disabled = false;
+                }
+                if (hs < score) {
+                    hs = score;
+                    localStorage.setItem("score", hs);
+                    hn = name;
+                    localStorage.setItem("name", hn);
+                }
+            }
+
+        }
+        function scoreCard() {
+            if (double1 == double2) {
+                double1++;
+                score = score + 1;
+                document.getElementById('score').innerHTML = score;
+            }
+        }
+        function HighScore() {
+            alert(localStorage.getItem("name") + ':' + localStorage.getItem("score"));
+        }
+        function quit() {
+            alert("Quit..");
+            window.location.href = "index.html";
+        }
+    </script>
+</body>
+
+</html>
